@@ -42,4 +42,14 @@ public class HospitalDataController {
        return hospitalDataService.addEmployeeDetails(employee);
     }
 
+    @DeleteMapping ("/v1/employee/{empId}")
+    public boolean deleteEmployee(@PathVariable long empId) {
+        return hospitalDataService.deleteEmployeeDetails(empId);
+    }
+
+    @PatchMapping ("/v1/employee")
+    public boolean updateEmployee(@RequestBody Employee employee) {
+        return hospitalDataService.updateEmployeeDetails(employee);
+    }
+
 }

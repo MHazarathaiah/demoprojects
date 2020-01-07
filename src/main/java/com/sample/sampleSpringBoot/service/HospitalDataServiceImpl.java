@@ -4,6 +4,7 @@ import com.sample.sampleSpringBoot.models.Employee;
 import com.sample.sampleSpringBoot.repository.HospitalDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,30 @@ public class HospitalDataServiceImpl implements HospitalDataService {
     }
 
     @Override
-    public boolean deleteEmployeeDetails(Employee employee) {
+    public boolean deleteEmployeeDetails(long empId) {
+
+        Employee employee = hospitalDataRepository.findByEmployeeId(empId);
+        hospitalDataRepository.delete(employee);
         return true;
     }
 
     @Override
     public boolean updateEmployeeDetails(Employee employee) {
-        return true;
+
+        Employee existEmployeeData = hospitalDataRepository.findByEmployeeId(employee.getEmployeeId());
+
+        if(!StringUtils.isEmpty(existEmployeeData)) {
+
+            hospitalDataRepository.save(new Employee(employee.getEmployeeId(),
+                                        employee.getEmployeeName()!=null ? employee.getEmployeeName() : existEmployeeData.getEmployeeName()
+                                        , employee.getDesignation()!=null ? employee.getDesignation() : existEmployeeData.getDesignation()
+                                        , employee.getSalary() != null ? employee.getSalary() : existEmployeeData.getSalary()));
+
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Override
