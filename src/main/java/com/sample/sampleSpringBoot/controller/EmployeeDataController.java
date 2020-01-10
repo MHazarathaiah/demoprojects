@@ -1,7 +1,7 @@
 package com.sample.sampleSpringBoot.controller;
 
 import com.sample.sampleSpringBoot.models.Employee;
-import com.sample.sampleSpringBoot.repository.HospitalDataRepository;
+import com.sample.sampleSpringBoot.repository.EmployeeDataRepository;
 import com.sample.sampleSpringBoot.service.HospitalDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +10,15 @@ import java.util.List;
 
 /**
  * h.hazarathaiah
- * 2020-01-05
+ * 2020-01-09
  */
 
 @RestController
-public class HospitalDataController {
+@CrossOrigin(origins = "http://localhost:4200")
+public class EmployeeDataController {
 
     @Autowired
-    HospitalDataRepository hospitalDataRepository;
+    EmployeeDataRepository employeeDataRepository;
 
     @Autowired
     HospitalDataService hospitalDataService;
@@ -31,6 +32,7 @@ public class HospitalDataController {
     public List<Employee> getEmployees() {
         return hospitalDataService.fetchEmployeeDetails();
     }
+
     @GetMapping ("/v1/employee/{empId}")
     public Employee getEmployeeById(@PathVariable long empId) {
         return hospitalDataService.fetchEmployeeDetailsByEmpId(empId);

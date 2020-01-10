@@ -1,7 +1,7 @@
 package com.sample.sampleSpringBoot.service;
 
 import com.sample.sampleSpringBoot.models.Employee;
-import com.sample.sampleSpringBoot.repository.HospitalDataRepository;
+import com.sample.sampleSpringBoot.repository.EmployeeDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,13 +17,13 @@ import java.util.List;
 public class HospitalDataServiceImpl implements HospitalDataService {
 
     @Autowired
-    HospitalDataRepository hospitalDataRepository;
+    EmployeeDataRepository employeeDataRepository;
 
     @Override
     public boolean addEmployeeDetails(Employee employee) {
 
         try {
-            hospitalDataRepository.save(new Employee(employee.getEmployeeId(), employee.getEmployeeName(), employee.getDesignation(), employee.getSalary()));
+            employeeDataRepository.save(new Employee(employee.getEmployeeId(), employee.getEmployeeName()));
             return true;
         }
         catch (Exception ex) {
@@ -36,22 +36,21 @@ public class HospitalDataServiceImpl implements HospitalDataService {
     @Override
     public boolean deleteEmployeeDetails(long empId) {
 
-        Employee employee = hospitalDataRepository.findByEmployeeId(empId);
-        hospitalDataRepository.delete(employee);
+        Employee employee = employeeDataRepository.findByEmployeeId(empId);
+        employeeDataRepository.delete(employee);
         return true;
     }
 
     @Override
     public boolean updateEmployeeDetails(Employee employee) {
 
-        Employee existEmployeeData = hospitalDataRepository.findByEmployeeId(employee.getEmployeeId());
+        Employee existEmployeeData = employeeDataRepository.findByEmployeeId(employee.getEmployeeId());
 
         if(!StringUtils.isEmpty(existEmployeeData)) {
 
-            hospitalDataRepository.save(new Employee(employee.getEmployeeId(),
+            employeeDataRepository.save(new Employee(employee.getEmployeeId(),
                                         employee.getEmployeeName()!=null ? employee.getEmployeeName() : existEmployeeData.getEmployeeName()
-                                        , employee.getDesignation()!=null ? employee.getDesignation() : existEmployeeData.getDesignation()
-                                        , employee.getSalary() != null ? employee.getSalary() : existEmployeeData.getSalary()));
+                                        ));
 
             return true;
         } else {
@@ -62,7 +61,7 @@ public class HospitalDataServiceImpl implements HospitalDataService {
 
     @Override
     public List<Employee> fetchEmployeeDetails() {
-        Iterable<Employee> employees = hospitalDataRepository.findAll();
+        Iterable<Employee> employees = employeeDataRepository.findAll();
         List<Employee> employeeList = new ArrayList<Employee>();
         employees.forEach(employeeList:: add);
         return employeeList;
@@ -70,7 +69,7 @@ public class HospitalDataServiceImpl implements HospitalDataService {
 
     @Override
     public Employee fetchEmployeeDetailsByEmpId(long empId) {
-            Employee employee = hospitalDataRepository.findByEmployeeId(empId);
+            Employee employee = employeeDataRepository.findByEmployeeId(empId);
             return employee;
     }
 }
