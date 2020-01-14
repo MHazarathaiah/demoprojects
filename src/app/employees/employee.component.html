@@ -1,0 +1,33 @@
+
+    <div class="employees">
+
+      <div>
+      <form (submit)="addEmployee($event)">
+      <input [(ngModel)]="newEmployee" (keyup.enter)="newEmployee=''" class="textfield" name="newEmployee">
+        <button  type="submit" [disabled]="newEmployee===''">Add Employee
+          </button>
+      </form>
+      </div>
+
+      <div [hidden]="newEmployee">
+        Type in a new employee...
+      </div>
+
+      <div [hidden]="!newEmployee">
+        <!-- Another two-way binding example -->
+        Typing: {{ newEmployee }}
+      </div>
+
+      <ul>
+      <li *ngFor="let employee of emplloyees; let i=index">
+        <input type="checkbox" class="checkbox" [(ngModel)]="employee.completed" />
+      <span [ngClass]="{'checked': employee.completed}">{{ employee.newEmployee }}</span>
+      <span (click)="deleteEmployee(i)" class="delete-icon">[X]</span>
+        </li>
+        </ul>
+
+        <div class="mtop20">
+      <button (click)="deleteSelectedTodos()">Delete Selected</button>
+      </div>
+
+  </div>
