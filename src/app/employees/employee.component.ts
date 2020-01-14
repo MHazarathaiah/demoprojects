@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EmployeeService } from '../services/employee.service';
 
 @Component({
   selector: 'app-employees',
@@ -8,13 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class EmployeeComponent  {
 
   newEmployee: string;
-  emplloyees: any;
   employeeObj: any;
-
+  emplloyees: Array<any>;
+  employeeservice: EmployeeService;
   constructor() {
-    this.newEmployee = '';
-    this.emplloyees = [];
+    emplloyees: [];
   }
+
 
   addEmployee(event) {
     this.employeeObj = {
@@ -24,14 +25,32 @@ export class EmployeeComponent  {
     this.emplloyees.push(this.employeeObj);
     this.newEmployee = '';
     event.preventDefault();
+ //   this.employeeservice.save(this.newEmployee);
   }
 
-  deleteTodo(index) {
+  deleteEmployee(index) {
     this.emplloyees.splice(index, 1);
+  //  this.employeeservice.remove(index);
   }
 
-  deleteSelectedTodos() {
-    //need ES5 to reverse loop in order to splice by index
+  removeEmployeeById(empId) {
+    this.employeeservice.remove(empId).subscribe ( result =>
+      {
+        this.fetchEmployeeDetails();
+      }),error => console.error(error);
+  }
+
+  fetchEmployeeDetails() {
+    
+    this.employeeservice.getEmployees()
+    .subscribe(res => {
+      this.emplloyees = res;
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  deleteSelectedEmployees() {
     for(var i=(this.emplloyees.length -1); i > -1; i--) {
       if(this.emplloyees[i].completed) {
         this.emplloyees.splice(i, 1);
