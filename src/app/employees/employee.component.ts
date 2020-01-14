@@ -13,7 +13,8 @@ export class EmployeeComponent  {
   emplloyees: Array<any>;
   employeeservice: EmployeeService;
   constructor() {
-    emplloyees: [];
+    this.newEmployee = '';
+    this.emplloyees = [];
   }
 
 
