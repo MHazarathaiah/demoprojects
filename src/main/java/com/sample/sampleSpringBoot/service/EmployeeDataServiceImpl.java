@@ -35,24 +35,34 @@ public class EmployeeDataServiceImpl implements EmployeeDataService {
 
     @Override
     public boolean deleteEmployeeDetails(long empId) {
-        Employee employee = employeeDataRepository.findByEmployeeId(empId);
-        employeeDataRepository.delete(employee);
-        return true;
+        try {
+            Employee employee = employeeDataRepository.findByEmployeeId(empId);
+            employeeDataRepository.delete(employee);
+            return true;
+        }
+        catch(Exception ex) {
+            return false;
+        }
     }
 
     @Override
     public boolean updateEmployeeDetails(Employee employee) {
+        try {
 
-        Employee existEmployeeData = employeeDataRepository.findByEmployeeId(employee.getEmployeeId());
+            Employee existEmployeeData = employeeDataRepository.findByEmployeeId(employee.getEmployeeId());
 
-        if(!StringUtils.isEmpty(existEmployeeData)) {
+            if (!StringUtils.isEmpty(existEmployeeData)) {
 
-            employeeDataRepository.save(new Employee(employee.getEmployeeId(),
-                                        employee.getEmployeeName()!=null ? employee.getEmployeeName() : existEmployeeData.getEmployeeName()
-                                        ));
+                employeeDataRepository.save(new Employee(employee.getEmployeeId(),
+                        employee.getEmployeeName() != null ? employee.getEmployeeName() : existEmployeeData.getEmployeeName()
+                ));
 
-            return true;
-        } else {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch(Exception ex){
             return false;
         }
 
@@ -60,15 +70,25 @@ public class EmployeeDataServiceImpl implements EmployeeDataService {
 
     @Override
     public List<Employee> fetchEmployeeDetails() {
-        Iterable<Employee> employees = employeeDataRepository.findAll();
-        List<Employee> employeeList = new ArrayList<Employee>();
-        employees.forEach(employeeList:: add);
-        return employeeList;
+        try {
+            Iterable<Employee> employees = employeeDataRepository.findAll();
+            List<Employee> employeeList = new ArrayList<Employee>();
+            employees.forEach(employeeList::add);
+            return employeeList;
+        }
+        catch(Exception ex){
+            return new ArrayList<Employee>();
+        }
     }
 
     @Override
     public Employee fetchEmployeeDetailsByEmpId(long empId) {
+        try {
             Employee employee = employeeDataRepository.findByEmployeeId(empId);
             return employee;
+        }
+        catch(Exception ex) {
+            return new Employee();
+        }
     }
 }
