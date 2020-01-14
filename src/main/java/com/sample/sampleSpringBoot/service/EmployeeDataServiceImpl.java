@@ -14,7 +14,7 @@ import java.util.List;
  * 2020-01-07
  */
 @Service
-public class HospitalDataServiceImpl implements HospitalDataService {
+public class EmployeeDataServiceImpl implements EmployeeDataService {
 
     @Autowired
     EmployeeDataRepository employeeDataRepository;
@@ -35,7 +35,6 @@ public class HospitalDataServiceImpl implements HospitalDataService {
 
     @Override
     public boolean deleteEmployeeDetails(long empId) {
-
         Employee employee = employeeDataRepository.findByEmployeeId(empId);
         employeeDataRepository.delete(employee);
         return true;

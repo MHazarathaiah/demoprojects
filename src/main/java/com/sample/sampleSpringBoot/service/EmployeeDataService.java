@@ -4,7 +4,7 @@ import com.sample.sampleSpringBoot.models.Employee;
 
 import java.util.List;
 
-public interface HospitalDataService {
+public interface EmployeeDataService {
 
     public boolean addEmployeeDetails(Employee employee);
     public boolean deleteEmployeeDetails(long empId);
